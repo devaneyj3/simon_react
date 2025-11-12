@@ -24,8 +24,10 @@ export default function LandingPage() {
 						onChange={(e) => setName(e.target.value)}
 					/>
 				</div>
+				<div>
+					<button className={classes.start}>Start Now</button>
+				</div>
 			</div>
-			<button className={classes.start}>Start Now</button>
 		</div>
 	);
 }

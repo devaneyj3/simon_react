@@ -1,8 +1,13 @@
 .container {
   text-align: center;
+  flex-direction: column;
+  display: flex;
+  flex-wrap: wrap;
   h1 {
+    text-align: center;
     color: wheat;
-    font-size: 80px;
+    font-size: 2.5em;
+    line-height: 1.5;
     position: relative;
     text-shadow: 0 0 10px rgb(97, 71, 22), 0 0 20px rgb(64, 47, 14), 0 0 30px rgb(112, 85, 37);
 
@@ -51,6 +56,7 @@
 
 .start {
   width: 50%;
+  margin-top: 40px;;
   height: 100px;
   border-radius: 20px;
   background-color: wheat;
