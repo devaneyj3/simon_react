@@ -25,7 +25,7 @@ export default function LandingPage() {
 					/>
 				</div>
 			</div>
-			{name && <h1>Welcome, {name}</h1>}
+			<button className={classes.start}>Start Now</button>
 		</div>
 	);
 }
