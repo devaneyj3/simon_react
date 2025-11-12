@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import classes from "../styles/Landing.module.scss";
 
-export default function LandingPage() {
+export default function Landing() {
 	const [name, setName] = useState("");
+	const router = useRouter();
 	return (
 		<div className={classes.container}>
 			<div className={classes.matrix_container}>
@@ -24,9 +26,16 @@ export default function LandingPage() {
 						onChange={(e) => setName(e.target.value)}
 					/>
 				</div>
-				<div>
-					<button className={classes.start}>Start Now</button>
-				</div>
+				{name && (
+					<div>
+						<button
+							type="button"
+							className={classes.start}
+							onClick={() => router.push("/game")}>
+							Start Now
+						</button>
+					</div>
+				)}
 			</div>
 		</div>
 	);
