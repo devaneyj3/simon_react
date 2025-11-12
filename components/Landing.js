@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import classes from "../styles/Landing.module.scss";
+import CustomButton from "./CustomButton";
 
 export default function Landing() {
 	const [name, setName] = useState("");
@@ -27,14 +28,7 @@ export default function Landing() {
 					/>
 				</div>
 				{name && (
-					<div>
-						<button
-							type="button"
-							className={classes.start}
-							onClick={() => router.push("/game")}>
-							Start Now
-						</button>
-					</div>
+					<CustomButton text="Start" onClick={() => router.push("/game")} />
 				)}
 			</div>
 		</div>

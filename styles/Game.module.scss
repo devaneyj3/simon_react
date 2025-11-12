@@ -1,0 +1,49 @@
+.container {
+  text-align: center;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  h1 {
+    text-align: center;
+    color: wheat;
+    font-size: 2.5em;
+    line-height: 1.5;
+    position: relative;
+    text-shadow: 0 0 10px rgb(97, 71, 22), 0 0 20px rgb(64, 47, 14), 0 0 30px rgb(112, 85, 37);
+
+  }
+  .gamePad {
+    display: grid;
+    align-self: center;
+    grid-template-columns: repeat(2, 100px);
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .square {
+    border: 1px solid black;
+    border-radius: 20%;
+    width: 100px;
+    height: 100px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .yellow {
+    background-color: yellow
+  }
+  .green {
+    background-color: green;
+  }
+  .blue {
+    background-color: blue;
+  }
+  .red {
+    background-color: red;
+  }
+  .game-over {
+  background-color: red;
+  opacity: 0.8;
+}
+
+}
