@@ -1,23 +1,39 @@
 "use client";
 import classes from "../styles/Game.module.scss";
-import { COLORS, randomColor, runGame } from "@/utils";
 import CustomButton from "./CustomButton";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useSound from "use-sound";
 import ScoreDisplay from "./ScoreDisplay";
-import { useGameContext } from "@/context/gameContext";
+import { useGameContext, COLORS } from "@/context/gameContext";
 
 export default function Game() {
-	const { colorPressed, setColorPressed, gameRunning, setGameRunning, level } =
-		useGameContext();
+	const {
+		colorPressed,
+		setColorPressed,
+		gameRunning,
+		level,
+		randomPattern,
+		userPattern,
+		setUserPattern,
+		stopGame,
+		startGame,
+		checkPattern,
+		heading,
+		pickedWrongPattern,
+		currentRandomColor,
+	} = useGameContext();
 	const [playRed] = useSound("/sounds/red.mp3");
 	const [playYellow] = useSound("/sounds/yellow.mp3");
 	const [playGreen] = useSound("/sounds/green.mp3");
 	const [playBlue] = useSound("/sounds/blue.mp3");
 
 	useEffect(() => {
-		runGame();
-	}, []);
+		if (pickedWrongPattern) {
+			document.body.classList.add("game-over");
+		} else {
+			document.body.classList.remove("game-over");
+		}
+	}, [pickedWrongPattern]);
 
 	const sounds = {
 		red: playRed,
@@ -27,18 +43,21 @@ export default function Game() {
 	};
 
 	const btnClick = (color) => {
+		if (!gameRunning) return;
 		setColorPressed(color);
 		sounds[color]();
-		setTimeout(() => setColorPressed(""), 200);
+		setUserPattern((prev) => [...prev, color]);
+		console.log("line 49, Game.jsx ", userPattern);
+		checkPattern();
 	};
+
+	console.log("Computer pattern is,", randomPattern);
+	console.log("User pattern is,", userPattern);
+	console.log("Random color is,", currentRandomColor);
 
 	return (
 		<div className={classes.container}>
-			{gameRunning ? (
-				<h1>Level {level}</h1>
-			) : (
-				<h1>Click the button below to start the game</h1>
-			)}
+			{gameRunning ? <h1>Level {level}</h1> : <h1>{heading}</h1>}
 			<ScoreDisplay />
 			<div className={classes.gamePad}>
 				{COLORS.map((color) => (
@@ -48,15 +67,15 @@ export default function Game() {
 							boxShadow: colorPressed === color ? `0 0 20px ${color}` : "none",
 						}}
 						className={`${classes.square} ${classes[color]} ${
-							colorPressed === color && classes.pressed
-						}`}
+							colorPressed === color ? classes.pressed : ""
+						} ${currentRandomColor === color ? classes.fade : ""}`}
 						onClick={() => btnClick(color)}
 					/>
 				))}
 			</div>
 			<CustomButton
-				text={`${gameRunning ? "Stop" : "Start"}`}
-				onClick={() => setGameRunning(!gameRunning)}
+				text={gameRunning ? "Stop" : "Start"}
+				onClick={() => (gameRunning ? stopGame() : startGame())}
 			/>
 		</div>
 	);
