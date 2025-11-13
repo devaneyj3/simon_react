@@ -8,7 +8,8 @@ import ScoreDisplay from "./ScoreDisplay";
 import { useGameContext } from "@/context/gameContext";
 
 export default function Game() {
-	const { colorPressed, setColorPressed } = useGameContext();
+	const { colorPressed, setColorPressed, gameRunning, setGameRunning, level } =
+		useGameContext();
 	const [playRed] = useSound("/sounds/red.mp3");
 	const [playYellow] = useSound("/sounds/yellow.mp3");
 	const [playGreen] = useSound("/sounds/green.mp3");
@@ -33,7 +34,11 @@ export default function Game() {
 
 	return (
 		<div className={classes.container}>
-			<h1>Click the button below to start the game</h1>
+			{gameRunning ? (
+				<h1>Level {level}</h1>
+			) : (
+				<h1>Click the button below to start the game</h1>
+			)}
 			<ScoreDisplay />
 			<div className={classes.gamePad}>
 				{COLORS.map((color) => (
@@ -49,7 +54,10 @@ export default function Game() {
 					/>
 				))}
 			</div>
-			<CustomButton text="Start" />
+			<CustomButton
+				text={`${gameRunning ? "Stop" : "Start"}`}
+				onClick={() => setGameRunning(!gameRunning)}
+			/>
 		</div>
 	);
 }

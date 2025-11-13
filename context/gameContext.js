@@ -11,8 +11,14 @@ export const GameContextProvider = ({ children }) => {
 	const [userPattern, setUserPattern] = useState([]);
 	const [randomPattern, setRandomPattern] = useState([]);
 	const [gameIsOver, setGameIsOver] = useState(false);
+	const [level, setLevel] = useState(1);
+	const [gameRunning, setGameRunning] = useState(false);
 
 	const values = {
+		level,
+		setLevel,
+		gameRunning,
+		setGameRunning,
 		colorPressed,
 		setColorPressed,
 		name,
