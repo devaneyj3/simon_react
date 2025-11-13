@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import classes from "../styles/Landing.module.scss";
 import CustomButton from "./CustomButton";
+import { useGameContext } from "@/context/gameContext";
 
 export default function Landing() {
-	const [name, setName] = useState("");
+	const { setName, name } = useGameContext();
 	const router = useRouter();
 	return (
 		<div className={classes.container}>

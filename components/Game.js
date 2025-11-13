@@ -2,12 +2,13 @@
 import classes from "../styles/Game.module.scss";
 import { COLORS, randomColor, runGame } from "@/utils";
 import CustomButton from "./CustomButton";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useSound from "use-sound";
 import ScoreDisplay from "./ScoreDisplay";
+import { useGameContext } from "@/context/gameContext";
 
 export default function Game() {
-	const [colorPressed, setColorPressed] = useState("");
+	const { colorPressed, setColorPressed } = useGameContext();
 	const [playRed] = useSound("/sounds/red.mp3");
 	const [playYellow] = useSound("/sounds/yellow.mp3");
 	const [playGreen] = useSound("/sounds/green.mp3");

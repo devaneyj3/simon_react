@@ -1,5 +1,6 @@
 import { Press_Start_2P } from "next/font/google";
 import "../styles/globals.css";
+import { GameContextProvider } from "@/context/gameContext";
 
 const pressStart = Press_Start_2P({
 	variable: "--font-press-start",
@@ -15,7 +16,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<body className={`${pressStart.variable}`}>{children}</body>
+			<GameContextProvider>
+				<body className={`${pressStart.variable}`}>{children}</body>
+			</GameContextProvider>
 		</html>
 	);
 }
