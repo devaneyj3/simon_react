@@ -1,9 +1,10 @@
 "use client";
 import classes from "../styles/Game.module.scss";
-import { COLORS } from "@/constants";
+import { COLORS, randomColor, runGame } from "@/utils";
 import CustomButton from "./CustomButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSound from "use-sound";
+import ScoreDisplay from "./ScoreDisplay";
 
 export default function Game() {
 	const [colorPressed, setColorPressed] = useState("");
@@ -11,6 +12,10 @@ export default function Game() {
 	const [playYellow] = useSound("/sounds/yellow.mp3");
 	const [playGreen] = useSound("/sounds/green.mp3");
 	const [playBlue] = useSound("/sounds/blue.mp3");
+
+	useEffect(() => {
+		runGame();
+	}, []);
 
 	const sounds = {
 		red: playRed,
@@ -28,6 +33,7 @@ export default function Game() {
 	return (
 		<div className={classes.container}>
 			<h1>Click the button below to start the game</h1>
+			<ScoreDisplay />
 			<div className={classes.gamePad}>
 				{COLORS.map((color) => (
 					<div
