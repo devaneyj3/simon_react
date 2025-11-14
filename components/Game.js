@@ -21,11 +21,8 @@ export default function Game() {
 		heading,
 		pickedWrongPattern,
 		currentRandomColor,
+		sounds,
 	} = useGameContext();
-	const [playRed] = useSound("/sounds/red.mp3");
-	const [playYellow] = useSound("/sounds/yellow.mp3");
-	const [playGreen] = useSound("/sounds/green.mp3");
-	const [playBlue] = useSound("/sounds/blue.mp3");
 
 	useEffect(() => {
 		if (pickedWrongPattern) {
@@ -35,26 +32,18 @@ export default function Game() {
 		}
 	}, [pickedWrongPattern]);
 
-	const sounds = {
-		red: playRed,
-		yellow: playYellow,
-		green: playGreen,
-		blue: playBlue,
-	};
+	useEffect(() => {
+		setUserPattern((prev) => [...prev, colorPressed]);
+	}, [colorPressed]);
 
 	const btnClick = (color) => {
 		if (!gameRunning) return;
 		setColorPressed(color);
 		sounds[color]();
-		setUserPattern((prev) => [...prev, color]);
-		console.log("line 49, Game.jsx ", userPattern);
 		checkPattern();
 	};
 
 	console.log("Computer pattern is,", randomPattern);
-	console.log("User pattern is,", userPattern);
-	console.log("Random color is,", currentRandomColor);
-
 	return (
 		<div className={classes.container}>
 			{gameRunning ? <h1>Level {level}</h1> : <h1>{heading}</h1>}

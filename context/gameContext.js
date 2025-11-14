@@ -106,6 +106,7 @@ export const GameContextProvider = ({ children }) => {
 		setHeading,
 		pickedWrongPattern,
 		currentRandomColor,
+		sounds,
 	};
 
 	return <GameContext.Provider value={values}>{children}</GameContext.Provider>;
