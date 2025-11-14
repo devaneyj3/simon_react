@@ -1,8 +1,7 @@
 "use client";
 import classes from "../styles/Game.module.scss";
 import CustomButton from "./CustomButton";
-import { useEffect, useState } from "react";
-import useSound from "use-sound";
+import { useEffect } from "react";
 import ScoreDisplay from "./ScoreDisplay";
 import { useGameContext, COLORS } from "@/context/gameContext";
 
@@ -12,9 +11,6 @@ export default function Game() {
 		setColorPressed,
 		gameRunning,
 		level,
-		randomPattern,
-		userPattern,
-		setUserPattern,
 		stopGame,
 		startGame,
 		checkPattern,
@@ -22,6 +18,7 @@ export default function Game() {
 		pickedWrongPattern,
 		currentRandomColor,
 		sounds,
+		levelMsg,
 	} = useGameContext();
 
 	useEffect(() => {
@@ -31,33 +28,25 @@ export default function Game() {
 			document.body.classList.remove("game-over");
 		}
 	}, [pickedWrongPattern]);
-
-	useEffect(() => {
-		setUserPattern((prev) => [...prev, colorPressed]);
-	}, [colorPressed]);
-
 	const btnClick = (color) => {
 		if (!gameRunning) return;
 		setColorPressed(color);
 		sounds[color]();
-		checkPattern();
+		checkPattern(color);
 	};
 
-	console.log("Computer pattern is,", randomPattern);
 	return (
 		<div className={classes.container}>
 			{gameRunning ? <h1>Level {level}</h1> : <h1>{heading}</h1>}
+			{levelMsg && <p>{levelMsg}</p>}
 			<ScoreDisplay />
 			<div className={classes.gamePad}>
 				{COLORS.map((color) => (
 					<div
 						key={color}
-						style={{
-							boxShadow: colorPressed === color ? `0 0 20px ${color}` : "none",
-						}}
 						className={`${classes.square} ${classes[color]} ${
 							colorPressed === color ? classes.pressed : ""
-						} ${currentRandomColor === color ? classes.fade : ""}`}
+						} ${currentRandomColor === color ? classes[`${color}Glow`] : ""}`}
 						onClick={() => btnClick(color)}
 					/>
 				))}

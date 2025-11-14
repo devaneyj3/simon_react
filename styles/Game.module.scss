@@ -42,8 +42,19 @@
     background-color: red;
   }
   .fade {
-    opacity: 0.7; /* Make it slightly transparent */
-    transform: scale(1.1); /* Make it slightly bigger */
+    opacity: 0.8; /* Make it slightly transparent */
+    transform: scale(1.2); /* Make it slightly bigger */
     transition: all 0.3s ease-in-out;
   }
+  .pressed {
+    opacity: 0.8; /* Make it slightly transparent */
+    transform: scale(1.1); /* Make it slightly bigger */
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 20px red ;
+  }
+  .redGlow { box-shadow: 0 0 20px red; }
+  .yellowGlow { box-shadow: 0 0 20px yellow; }
+  .blueGlow { box-shadow: 0 0 20px blue; }
+  .greenGlow { box-shadow: 0 0 20px green; }
+// etc.
 }

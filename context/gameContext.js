@@ -15,11 +15,11 @@ export const GameContextProvider = ({ children }) => {
 	const [highScore, setHighScore] = useState(0);
 	const [userPattern, setUserPattern] = useState([]);
 	const [randomPattern, setRandomPattern] = useState([]);
-	const [gameIsOver, setGameIsOver] = useState(false);
 	const [level, setLevel] = useState(1);
 	const [gameRunning, setGameRunning] = useState(false);
 	const [pickedWrongPattern, setPickedWrongPattern] = useState(false);
 	const [currentRandomColor, setCurrentRandomColor] = useState(null);
+	const [levelMsg, setLevelMsg] = useState("");
 	const [playWrong] = useSound("/sounds/wrong.mp3");
 	const [playRed] = useSound("/sounds/red.mp3");
 	const [playYellow] = useSound("/sounds/yellow.mp3");
@@ -38,16 +38,20 @@ export const GameContextProvider = ({ children }) => {
 		setRandomPattern((prev) => [...prev, color]);
 		sounds[color]();
 		setCurrentRandomColor(color);
-		setTimeout(() => setCurrentRandomColor(null), 500);
+		setTimeout(() => setCurrentRandomColor(null), 1000);
 	};
 
 	const startGame = () => {
 		setGameRunning(true);
+		setLevelMsg(null);
 		generateRandomColor();
 	};
 
 	const stopGame = () => {
+		if (score > highScore) setHighScore(score);
 		setGameRunning(false);
+		setHeading("Game Over. Press button to restart.");
+		setLevelMsg(`You finished at level ${level}`);
 		setRandomPattern([]);
 		setUserPattern([]);
 		setLevel(1);
@@ -55,27 +59,25 @@ export const GameContextProvider = ({ children }) => {
 		setColorPressed("");
 	};
 
-	const checkPattern = () => {
-		console.log(userPattern);
-		console.log(randomPattern);
-		console.log(`${userPattern} == ${randomPattern}`);
+	const checkPattern = (color) => {
+		const newPattern = [...userPattern, color];
+		setUserPattern(newPattern);
 		if (
-			userPattern.length === randomPattern.length &&
-			userPattern.every((current, index) => current === randomPattern[index])
+			newPattern.length === randomPattern.length &&
+			newPattern.every((current, index) => current === randomPattern[index])
 		) {
+			setScore((prev) => prev + 100);
 			setLevel((prev) => prev + 1);
-			console.log("right pattern");
 			generateRandomColor();
 		} else {
-			// console.log("wrong pattern");
-			// stopGame();
-			// //play wrong button sound
-			// setHeading("Game Over. Press button to restart");
-			// setPickedWrongPattern(true);
-			// setTimeout(() => {
-			// 	setPickedWrongPattern(false);
-			// }, 300);
-			// playWrong();
+			stopGame();
+			//play wrong button sound
+			setHeading("Game Over. Press button to restart");
+			setPickedWrongPattern(true);
+			setTimeout(() => {
+				setPickedWrongPattern(false);
+			}, 300);
+			playWrong();
 			//when the game is over apply style
 		}
 	};
@@ -93,12 +95,6 @@ export const GameContextProvider = ({ children }) => {
 		setScore,
 		highScore,
 		setHighScore,
-		userPattern,
-		setUserPattern,
-		randomPattern,
-		setRandomPattern,
-		gameIsOver,
-		setGameIsOver,
 		stopGame,
 		startGame,
 		checkPattern,
@@ -107,6 +103,7 @@ export const GameContextProvider = ({ children }) => {
 		pickedWrongPattern,
 		currentRandomColor,
 		sounds,
+		levelMsg,
 	};
 
 	return <GameContext.Provider value={values}>{children}</GameContext.Provider>;
