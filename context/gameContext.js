@@ -68,7 +68,10 @@ export const GameContextProvider = ({ children }) => {
 		) {
 			setScore((prev) => prev + 100);
 			setLevel((prev) => prev + 1);
-			generateRandomColor();
+			//add delay with next random color
+			setTimeout(() => {
+				generateRandomColor();
+			}, 1000);
 		} else {
 			stopGame();
 			//play wrong button sound
