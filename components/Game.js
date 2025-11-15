@@ -46,7 +46,11 @@ export default function Game() {
 						key={color}
 						className={`${classes.square} ${classes[color]} ${
 							colorPressed === color ? classes.pressed : ""
-						} ${currentRandomColor === color ? classes[`${color}Glow`] : ""}`}
+						} ${
+							currentRandomColor === color
+								? classes[`${color}Glow`] && classes.fade
+								: ""
+						}`}
 						onClick={() => btnClick(color)}
 					/>
 				))}

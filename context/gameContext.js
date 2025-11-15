@@ -38,7 +38,7 @@ export const GameContextProvider = ({ children }) => {
 		setRandomPattern((prev) => [...prev, color]);
 		sounds[color]();
 		setCurrentRandomColor(color);
-		setTimeout(() => setCurrentRandomColor(null), 1000);
+		setTimeout(() => setCurrentRandomColor(null), 2000);
 	};
 
 	const startGame = () => {
@@ -78,7 +78,6 @@ export const GameContextProvider = ({ children }) => {
 				setPickedWrongPattern(false);
 			}, 300);
 			playWrong();
-			//when the game is over apply style
 		}
 	};
 
