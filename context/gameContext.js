@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import useSound from "use-sound";
 
 export const GameContext = createContext();
@@ -25,14 +25,14 @@ export const GameContextProvider = ({ children }) => {
 	const [playYellow] = useSound("/sounds/yellow.mp3");
 	const [playGreen] = useSound("/sounds/green.mp3");
 	const [playBlue] = useSound("/sounds/blue.mp3");
-
 	const sounds = {
 		red: playRed,
 		yellow: playYellow,
 		green: playGreen,
 		blue: playBlue,
 	};
-	const generateRandomColor = () => {
+	const nextSequence = () => {
+		setUserPattern([]);
 		const randomNum = Math.floor(Math.random() * COLORS.length);
 		const color = COLORS[randomNum];
 		setRandomPattern((prev) => [...prev, color]);
@@ -44,7 +44,7 @@ export const GameContextProvider = ({ children }) => {
 	const startGame = () => {
 		setGameRunning(true);
 		setLevelMsg(null);
-		generateRandomColor();
+		nextSequence();
 	};
 
 	const stopGame = () => {
@@ -62,16 +62,17 @@ export const GameContextProvider = ({ children }) => {
 	const checkPattern = (color) => {
 		const newPattern = [...userPattern, color];
 		setUserPattern(newPattern);
-		if (
-			newPattern.length === randomPattern.length &&
-			newPattern.every((current, index) => current === randomPattern[index])
-		) {
-			setScore((prev) => prev + 100);
-			setLevel((prev) => prev + 1);
-			//add delay with next random color
-			setTimeout(() => {
-				generateRandomColor();
-			}, 1000);
+		const index = newPattern.length - 1;
+		if (newPattern[index] === randomPattern[index]) {
+			if (newPattern.length === randomPattern.length) {
+				setScore((prev) => prev + 100);
+				setLevel((prev) => prev + 1);
+
+				//add delay with next random color
+				setTimeout(() => {
+					nextSequence();
+				}, 1000);
+			}
 		} else {
 			stopGame();
 			//play wrong button sound
@@ -103,6 +104,8 @@ export const GameContextProvider = ({ children }) => {
 		heading,
 		setHeading,
 		pickedWrongPattern,
+		userPattern,
+		randomPattern,
 		currentRandomColor,
 		sounds,
 		levelMsg,

@@ -18,6 +18,8 @@ export default function Game() {
 		pickedWrongPattern,
 		currentRandomColor,
 		sounds,
+		userPattern,
+		randomPattern,
 		levelMsg,
 	} = useGameContext();
 
@@ -34,6 +36,7 @@ export default function Game() {
 		sounds[color]();
 		checkPattern(color);
 	};
+
 
 	return (
 		<div className={classes.container}>
